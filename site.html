@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soirée Rétro – La Cité Forestière</title>
+  <style>
+    body {
+      background-color: #f5efe0;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+      color: #222;
+      margin: 0;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    header {
+      background-color: #006633;
+      color: #f5efe0;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    h1 {
+      color: #f5efe0;
+      font-size: 2.5em;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .subtitle {
+      font-style: italic;
+      margin-top: 10px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px auto;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    img:hover {
+      transform: scale(1.02);
+    }
+    .info-box {
+      background-color: #e6dcc6;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 30px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .info-box h2 {
+      color: #006633;
+      margin-top: 0;
+    }
+    .button {
+      background-color: #ff7700;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      font-size: 1.2em;
+      border-radius: 5px;
+      display: inline-block;
+      margin: 15px 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #e56b00;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    }
+    .button:active {
+      transform: translateY(1px);
+    }
+    .button.secondary {
+      background-color: #006633;
+    }
+    .button.secondary:hover {
+      background-color: #005528;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+    }
+    .modal-content {
+      margin: 5% auto;
+      padding: 25px;
+      width: 80%;
+      max-width: 900px;
+      background-color: #f5efe0;
+      border-radius: 10px;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .close {
+      color: #555;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .close:hover {
+      color: black;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 400px;
+      object-fit: cover;
+    }
+    .contact {
+      margin-top: 40px;
+      padding: 15px;
+      background-color: rgba(0, 102, 51, 0.1);
+      border-radius: 10px;
+    }
+    .contact h3 {
+      color: #006633;
+      margin-top: 0;
+    }
+    .contact p {
+      margin: 5px 0;
+    }
+    .social-icons {
+      margin-top: 15px;
+      font-size: 24px;
+    }
+    .social-icons span {
+      margin: 0 10px;
+      cursor: pointer;
+    }
+    .event-details {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .detail-card {
+      background-color: #e6dcc6;
+      border-radius: 10px;
+      padding: 15px;
+      width: 200px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    .detail-card h3 {
+      color: #006633;
+      margin-top: 0;
+    }
+    .detail-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #ff7700;
+    }
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      background-color: #006633;
+      color: #f5efe0;
+      border-radius: 10px;
+    }
+    .ticket-counter {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #ff7700;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .event-details {
+        flex-direction: column;
+        align-items: center;
+      }
+      .detail-card {
+        width: 100%;
+        max-width: 300px;
+      }
+      .button {
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-in;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="fade-in">
+      <h1>Soirée Rétro – La Cité Forestière</h1>
+      <p class="subtitle">Plongez dans l'ambiance des années 60!</p>
+    </header>
+    
+    <div class="event-details">
+      <div class="detail-card">
+        <div class="detail-icon">📅</div>
+        <h3>Date</h3>
+        <p>29 mai 2025</p>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">🕘</div>
+        <h3>Horaire</h3>
+        <p>20h - 1h</p>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">🎟️</div>
+        <h3>Tickets</h3>
+        <p>1000F</p>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">📍</div>
+        <h3>Lieu</h3>
+        <p>La Cité Forestière</p>
+      </div>
+    </div>
+
+    <img src="/api/placeholder/800/1000" alt="Affiche rétro années 60" id="affiche1" class="fade-in">
+    
+    <div class="info-box fade-in">
+      <h2>ÉVÈNEMENT RÉTRO EXCEPTIONNEL</h2>
+      <p>La Cité Forestière vous plonge dans les années 60! Ambiance vintage, style, musique & souvenirs.</p>
+      <p>Préparez vos tenues les plus stylées, la belle époque revient à La Cité Forestière!</p>
+      <div class="ticket-counter">Places limitées ! Il reste seulement 45 tickets disponibles.</div>
+    </div>
+
+    <img src="/api/placeholder/800/600" alt="Musiciens de la soirée rétro" id="affiche2" class="fade-in">
+
+    <div>
+      <button class="button" id="voirImages">Voir les photos</button>
+      <button class="button secondary">Réserver maintenant</button>
+    </div>
+
+    <div class="contact">
+      <h3>Contactez-nous</h3>
+      <p>📞 0594399440 / 0769268502</p>
+      <p>📍 Cité forestière</p>
+      <div class="social-icons">
+        <span>📱</span>
+        <span>💬</span>
+        <span>📷</span>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 La Cité Forestière - Tous droits réservés</p>
+      <p>Un évènement organisé par l'Association Culturelle de La Cité Forestière</p>
+    </footer>
+  </div>
+
+  <!-- Modal pour afficher les images -->
+  <div id="imageModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>La Cité Forestière vous plonge dans les années 60!</h2>
+      <p>Découvrez l'ambiance de notre soirée rétro exceptionnelle</p>
+      
+      <div class="gallery">
+        <img src="/api/placeholder/400/600" alt="Affiche principale de l'événement">
+        <img src="/api/placeholder/400/400" alt="Musiciens de la soirée rétro">
+        <img src="/api/placeholder/400/400" alt="Décoration années 60">
+        <img src="/api/placeholder/400/400" alt="Ambiance des précédentes éditions">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal functionality
+    const modal = document.getElementById("imageModal");
+    const btn = document.getElementById("voirImages");
+    const closeSpan = document.querySelector(".close");
+    
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    closeSpan.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    
+    // Add countdown timer
+    const eventDate = new Date('May 29, 2025 20:00:00').getTime();
+    
+    // Update ticket count randomly to create FOMO
+    const ticketCounter = document.querySelector('.ticket-counter');
+    setInterval(() => {
+      const currentCount = parseInt(ticketCounter.textContent.match(/\d+/)[0]);
+      if (currentCount > 1) {
+        const newCount = Math.max(1, currentCount - Math.floor(Math.random() * 2));
+        ticketCounter.textContent = `Places limitées ! Il reste seulement ${newCount} tickets disponibles.`;
+        
+        if (newCount < 10) {
+          ticketCounter.style.color = 'red';
+        }
+      }
+    }, 60000); // Update every minute
+  </script>
+</body>
+</html>
